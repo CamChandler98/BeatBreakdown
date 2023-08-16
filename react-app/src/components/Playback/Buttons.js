@@ -41,7 +41,7 @@ const Buttons = (props) => {
         else{
             endpoint = 'me/player/previous'
         }
-2
+
         let url = spotifyBaseUrl + endpoint
 
         let res = await fetch(url, {

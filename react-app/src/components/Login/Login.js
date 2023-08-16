@@ -1,12 +1,21 @@
 import React from 'react';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../store/session';
 function Login() {
+
+
+    const dispatch = useDispatch();
+
     const getAuthLink = async () => {
-        let res = await fetch("/api/auth/login", {mode:'cors'})
-        console.log(res)
-        let link = await res.json()
-        console.log(link)
-        window.open(link['url'], '_self')
+        let res = await fetch('/api/auth/login', {method: 'GET', mode : 'cors'})
+
+        let data = await res.json()
+        
+        if(data){
+            let url = data['url']
+            window.open(url , '_self')
+            console.log('continue?')
+        }
     }
     
     return (

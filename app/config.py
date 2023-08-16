@@ -14,4 +14,4 @@ class Config:
         'DATABASE_URL').replace('postgres://', 'postgresql://');
     SQLALCHEMY_ECHO = True;
 
-    REDIRECT_URI = os.environ.get('REACT_APP_BASE_URL') if os.environ.get('FLASK_ENV') == 'production' else "http://localhost:3000"
+    REDIRECT_URI = os.environ.get('REACT_APP_BASE_URL') if os.environ.get('FLASK_ENV') == 'production' else "http://localhost:5000"

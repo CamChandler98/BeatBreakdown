@@ -1,27 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import TitleBar from './components/TitleBar';
 import Scores from './components/Scores'
 import Login  from './components/Login/Login';
 import WebPlayback from './components/Playback/WebPlayback';
+
+import { goSetToken, goSetRefreshToken } from './store/session';
 import './app.css'
 
 function App() {
   const [token, setToken] = useState('');
+  const dispatch = useDispatch()
+
+
 
   useEffect(() => {
 
-    const queryString = window.location.href
-    console.log(queryString);
-    
-    let token = queryString.split('#')[1]
-    console.log(token)
-    const urlParams = new URLSearchParams(token);
-    console.log(urlParams)
+    let cookies = document.cookie
+    let cookieList = cookies.split('; ')
 
-    if(urlParams.has('access_token')){
-      let token = urlParams.get('access_token')
-      setToken(token)
+    let sepCookies = cookieList.map(el => el.split('='))
+
+    let cookieObj = {}
+
+    sepCookies.forEach(el => cookieObj[el[0]] = el[1] )
+
+    if(cookieObj['access_token'])
+    {
+      let token = cookieObj['access_token']
+      dispatch(goSetToken(cookieObj['access_token']))
+    }
+
+    if(cookieObj['refresh_token'])
+    {
+      let token = cookieObj['refresh_token']
+      dispatch(goSetRefreshToken(cookieObj['refresh_token']))
     }
 
     }, []);
@@ -30,7 +45,7 @@ function App() {
         <TitleBar />
     <Switch>
         <Route path = '*'>
-        { (token === '') ? <Login/> : <WebPlayback token={token} /> }
+        { (token === '') ? <Login/> : "it" }
         </Route>
     </Switch>
     </BrowserRouter>
