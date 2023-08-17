@@ -1,0 +1,15 @@
+.side-bar{
+    background-color: #8c35ff;
+    padding: 2%;
+    margin-left: 2em;
+    margin-right: 1em;
+    border-radius: 20px;
+    /* border-top-right-radius: 5%;
+    border-top-left-radius: 5%; */
+    /* height: fit-content; */
+    box-sizing: border-box;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    /* flex-grow: 1; */
+
+}

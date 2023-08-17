@@ -3,12 +3,15 @@ import Track from "./Track";
 const TrackList = ({tracks}) => {
     
     return(
-        <>
-        { tracks.length >= 1 &&
+
 
             <div className="track-list">
-        
-                    {tracks.map(track => {
+                <div className = 'track-list-header'>
+                    <h1>
+
+                    </h1>
+                </div>
+                    {tracks && tracks.map(track => {
                         return(
                          <Track key= {track.id} track={track} />
                         )
@@ -16,16 +19,7 @@ const TrackList = ({tracks}) => {
                 
             </div>
             
-        }
-        { tracks.length < 1 &&
-
-            <div className="no-tracks-list">
-
-            </div>
-
-        }
-        </>
-
+    
     )
 }
 

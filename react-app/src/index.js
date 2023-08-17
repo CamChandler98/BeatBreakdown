@@ -20,6 +20,16 @@ if (process.env.NODE_ENV !== 'production') {
   window.store = store;
   window.sessionActions = sessionActions;
   window.spotifyActions = spotifyActions;
+
+  window.testPlaylist = () => {
+    
+    let playlist_ids = Object.keys(window.store.getState()['spotify']['playlists'])
+    let playlist_id = playlist_ids[2]
+
+    let tokens = window.store.getState()['session']
+
+    window.store.dispatch(window.spotifyActions.goSetPlaylistTracks(tokens,playlist_id))
+  }
 } 
 
 ReactDOM.render(

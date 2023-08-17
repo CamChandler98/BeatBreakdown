@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session'
-import spotifyReducer from './spotify';
+import spotify from './spotify';
 
 const rootReducer = combineReducers({
     session,
-    spotifyReducer
+    spotify
   });
   
 

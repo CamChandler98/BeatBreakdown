@@ -1,0 +1,41 @@
+.track-container{
+    display: flex;
+    gap: .2em;
+    background-color: #1b1b1d;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: fit-content;
+    border-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 20px;
+}
+.track-img img{
+    width: 180px;
+    height: 100%;
+}
+
+.track-text h1{
+    color: #ededed;
+
+    font-size: xx-large;
+}
+.track-text{
+    padding: 2%;
+    font-size: larger;
+    color: #b5b1b1;
+}
+
+.track-list{
+    /* flex-grow: 1; */
+    background-color: #8c35ff;
+    padding: 2%;
+    margin-left: 2em;
+    margin-right: 1em;
+    border-radius: 20px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    flex-grow: 10;
+
+}

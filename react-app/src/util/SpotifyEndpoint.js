@@ -19,6 +19,20 @@ const getArtists = ( artistObj) => {
     }
     return artists
 }
+
+export const getDataNext = (data) => {
+
+    if(!data.next)
+    {
+        return
+    }
+    let fullNext = data.next;
+
+    let nextArr = fullNext.split('v1/')
+
+    let next = nextArr[1]
+}
+
 export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api.spotify.com/v1/') => {
     let url = baseUrl + endpoint
     let authString = `Bearer ${token['token']}`
@@ -30,20 +44,25 @@ export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api
     })
 
     let data = await res.json()
-    console.log('data', data)
+    
+    if(data.error){
+        console.log(data.error)
+        // console.log('token' , token)
+    }
     if(data.error && data.error.message === "The access token expired")
     {
-        console.log('HERE?')
+        console.log('old tokens', token)
         let tokens = await refreshTokens()
-        console.log('tokens', tokens)
-       store.dispatch(goSetTokens(tokens))
+        console.log('new tokens', tokens)
+        store.dispatch(goSetTokens(tokens))
+
         await fetchDataEndpoint(tokens,endpoint,baseUrl)
     }
     return data
 }
 
 export const getTrackFeatures  = async (id, token, endpoint= 'audio-features/', baseUrl = 'https://api.spotify.com/v1/' ) => {
-    console.log(token)
+    // console.log(token)
     let url = baseUrl + endpoint + id
     let authString = `Bearer ${token['token']}`
 
@@ -67,14 +86,17 @@ export const simplifyTrack = async (token, data) => {
         let order = ''
         let name = trackObj['name']
         let artists = getArtists(trackObj['artists']);
-        let albumArt = trackObj['album']['images'][0]
+        let artistsString = artists.join(', ')
+        let albumArt = trackObj['album']['images'][1]
         let albumName = trackObj['album']['name']
         let previewUrl = trackObj['preview_url']
-        let features = await getTrackFeatures(id, token)
+        let features = getTrackFeatures(id, token)
 
         processed[trackKey] = {
+            id,
             name,
             artists,
+            artistsString,
             albumArt,
             albumName,
             previewUrl,
@@ -82,6 +104,6 @@ export const simplifyTrack = async (token, data) => {
         }
     }
     console.log(processed)
-    data.items = {...processed}
+    data.items = processed
     return data
 }

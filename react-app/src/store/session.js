@@ -1,9 +1,14 @@
+import { fetchDataEndpoint } from "../util/SpotifyEndpoint"
 const SET_TOKEN = 'session/SET_TOKEN'
 const SET_REFRESH_TOKEN = 'session/SET_REFRESH_TOKEN'
-
+const SET_USER = 'session/SET_USER'
 const SET_TOKENS = 'session/SET_TOKENS'
 
 
+const setUser = (userInfo) => ({
+    type: SET_USER,
+    user: userInfo
+})
 
 const setToken = (token) => ({
     type: SET_TOKEN,
@@ -29,9 +34,17 @@ export const login = () => async (dispatch) => {
     if(data){
         let url = data['url']
         window.open(url , '_self')
-        console.log('continue?')
     }
+    
 }
+
+export const getUserInformation = (tokens) => async (dispatch) =>  {
+    console.log('tokens +>>', tokens)
+    let data = await fetchDataEndpoint(tokens, 'me')
+
+    dispatch(setUser(data))
+
+ }
 
 export const goSetTokens = (tokens) => async (dispatch) => {
 
@@ -46,7 +59,7 @@ export const goSetRefreshToken = (token) => async (dispatch) => {
      dispatch(setRefreshToken(token))
 }
 
-const initialState = {token : null, refresh_token : null}
+const initialState = {token : null, refresh_token : null, user :{}}
 
 
 export default function reducer(state = initialState, action){
@@ -56,7 +69,9 @@ export default function reducer(state = initialState, action){
         case SET_REFRESH_TOKEN:
             return {...state, refresh_token : action.token}
         case SET_TOKENS : 
-            return {...action.tokens}
+            return {...action.tokens, user:state.user}
+        case SET_USER: 
+        return {...state, user: {...action.user}}
         default:
             return state
     }
