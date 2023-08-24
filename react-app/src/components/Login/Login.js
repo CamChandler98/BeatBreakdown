@@ -14,7 +14,7 @@ function Login() {
         if(data){
             let url = data['url']
             window.open(url , '_self')
-            console.log('continue?')
+            //console.log('continue?')
         }
     }
     

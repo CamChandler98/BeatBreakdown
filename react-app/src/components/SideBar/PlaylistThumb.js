@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './PlaylistThumb.css'
 import { goSetPlaylistTracks } from '../../store/spotify'
 import { refreshTokens } from '../../util/SpotifyEndpoint'
+import anime from 'animejs'
 
 const PlaylistThumb = ({playlist}) => {
     const token = useSelector(state => state.session)
@@ -9,6 +10,7 @@ const PlaylistThumb = ({playlist}) => {
 
     const getTracks = async (id) => {
         let tokens = await refreshTokens()
+
         dispatch(goSetPlaylistTracks(tokens, id))
     }
     const hasImage = (playlist) => {
@@ -27,6 +29,15 @@ const PlaylistThumb = ({playlist}) => {
         {
         playlist && 
         <div className="playlist-thumb" onClick={ () => {
+
+            anime({
+                targets: '.track-list',
+                filter: ["blur(5px)", "blur(70px)", ],
+                easing:  'cubicBezier(.5, .05, .1, .3)',
+                duration:900,
+                loop: false,
+                delay: 0
+              })
             getTracks(playlist.id)
         }}>
             

@@ -39,7 +39,7 @@ export const login = () => async (dispatch) => {
 }
 
 export const getUserInformation = (tokens) => async (dispatch) =>  {
-    console.log('tokens +>>', tokens)
+    //console.log('tokens +>>', tokens)
     let data = await fetchDataEndpoint(tokens, 'me')
 
     dispatch(setUser(data))

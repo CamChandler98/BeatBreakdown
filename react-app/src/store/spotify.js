@@ -1,4 +1,4 @@
-import { fetchDataEndpoint, refreshTokens, simplifyTrack, getDataNext } from "../util/SpotifyEndpoint"
+import { fetchDataEndpoint, refreshTokens, simplifyTrack, getDataNext, getTrackFeatures } from "../util/SpotifyEndpoint"
 import { goSetTokens } from "./session"
 
 
@@ -7,7 +7,13 @@ const SET_PLAYLIST = 'spotify/SET_PLAYLIST'
 const SET_USER_PLAYLISTS = 'spotify/SET_USER_PLAYLISTS'
 const SET_PLAYLIST_TRACKS = 'spotify/SET_PLAYLIST_TRACKS'
 const SET_NEXT = 'spotify/SET_NEXT'
+const SET_TRACK_FEATURES = 'spotify/SET_TRACK_FEATURES'
 
+
+const setTrackFeatures = (data) => ({
+    type: SET_TRACK_FEATURES,
+    track_features: data 
+})
 
 const setUserPlaylists = (data) => ({
     type: SET_USER_PLAYLISTS,
@@ -36,9 +42,16 @@ const setNext = (next) => ({
 })
 
 
+export const goGetTrackFeatures = (token, id) => async (dispatch) => {
+
+    let data = await getTrackFeatures(id,token)
+
+    dispatch(setTrackFeatures(data))
+}
+
 export const goGetUserPlaylists = (token) => async (dispatch) => {
     let data = await fetchDataEndpoint(token,'me/playlists')
-    console.log('original', data)
+    //console.log('original', data)
     let playlistOBJ = {}
 
     for(let playlistKey in data['items']){
@@ -73,7 +86,7 @@ export const getLibrary = (token, next = '') => async (dispatch) => {
 
 }
 
-const initialState = {playlists : {}, tracks: {}, playlist_tracks:  {}, next : '', library: {}}
+const initialState = {playlists : {}, tracks: {}, playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
 
 export default function spotify (state = initialState, action){
     switch(action.type){
@@ -97,6 +110,16 @@ export default function spotify (state = initialState, action){
             return{
                 ...state,
                 playlist_tracks: {...action.playlist_tracks.items}
+            }
+        case SET_TRACK_FEATURES : 
+            return{
+                ...state,
+                track_features: {
+                    id: action.track_features.id,
+                    info : [...action.track_features.info ],
+                    percent : [...action.track_features.percent ]
+
+                }
             }
         default:
             return state

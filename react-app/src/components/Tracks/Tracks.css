@@ -8,21 +8,23 @@
     border-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    padding: 20px;
+    padding: 15px;
+    align-items: center;
+
 }
 .track-img img{
-    width: 180px;
-    height: 100%;
+    width: 100px;
+    /* height: 100; */
 }
 
 .track-text h1{
     color: #ededed;
 
-    font-size: xx-large;
+    font-size: x-large;
 }
 .track-text{
-    padding: 2%;
-    font-size: larger;
+    padding: 1%;
+    font-size: normal;
     color: #b5b1b1;
 }
 
@@ -36,6 +38,11 @@
     box-sizing: border-box;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    flex-grow: 10;
-
+    /* flex-grow: 10; */
+    /* width: 100%; */
+    max-height: 100vh;
+    /* overflow-y: scroll; */
+}
+.infinite-scroll-component__outerdiv{
+    flex-grow: 6;
 }

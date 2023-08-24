@@ -11,5 +11,8 @@
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     /* flex-grow: 1; */
-
+    /* max-height: 110vh; */
+    /* overflow-y: scroll; */
+    max-height: 100vh;
+    overflow-y: scroll;
 }

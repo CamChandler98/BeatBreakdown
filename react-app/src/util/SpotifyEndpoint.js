@@ -35,8 +35,8 @@ export const getDataNext = (data) => {
 
 export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api.spotify.com/v1/') => {
     let url = baseUrl + endpoint
-    let authString = `Bearer ${token['token']}`
-
+    let tokens = await refreshTokens()
+    let authString = `Bearer ${tokens['token']}`
    let res = await fetch(url, {
         headers: {
             Authorization : authString
@@ -46,14 +46,14 @@ export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api
     let data = await res.json()
     
     if(data.error){
-        console.log(data.error)
-        // console.log('token' , token)
+        //console.log(data.error)
+        // //console.log('token' , token)
     }
     if(data.error && data.error.message === "The access token expired")
     {
-        console.log('old tokens', token)
+        //console.log('old tokens', token)
         let tokens = await refreshTokens()
-        console.log('new tokens', tokens)
+        //console.log('new tokens', tokens)
         store.dispatch(goSetTokens(tokens))
 
         await fetchDataEndpoint(tokens,endpoint,baseUrl)
@@ -62,9 +62,10 @@ export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api
 }
 
 export const getTrackFeatures  = async (id, token, endpoint= 'audio-features/', baseUrl = 'https://api.spotify.com/v1/' ) => {
-    // console.log(token)
+    // //console.log(token)
     let url = baseUrl + endpoint + id
-    let authString = `Bearer ${token['token']}`
+    let tokens = await refreshTokens()
+    let authString = `Bearer ${tokens['token']}`
 
     let res = await fetch(url, {
         headers: {
@@ -72,9 +73,86 @@ export const getTrackFeatures  = async (id, token, endpoint= 'audio-features/', 
         }
     })
     let data = await res.json()
-    return data    
+
+    if(data.error && data.error.message === "The access token expired")
+    {
+        //console.log('old tokens', token)
+        let tokens = await refreshTokens()
+        let authString = `Bearer ${tokens['token']}`
+        let res = await fetch(url, {
+            headers: {
+                Authorization : authString
+            }
+        })
+        data = await res.json()
+    }
+let processed =   simplifyTrackFeatures(data)
+processed.id = id
+    return processed    
 }
 
+const simplifyTrackFeatures = (track) => {
+
+    let{
+        acousticness,
+        danceability,
+        energy,
+        instrumentalness,
+        key,
+        liveness,
+        loudness,
+        mode,
+        speechiness,
+        tempo,
+        time_signature,
+        valence
+    } = track
+
+
+
+    let infoObj = { mode,
+        key,
+        time_signature,
+        tempo,
+        }
+        
+    let percentObj = {
+        acousticness,
+        danceability,
+        energy,
+        instrumentalness,
+        liveness,
+        loudness,
+        speechiness,
+        valence
+    }
+
+    let infoArray = []
+    let percentArray = []
+    for (let itemKey in infoObj)
+    {
+        let itemInfo = {
+            label: itemKey,
+            value: infoObj[itemKey]
+        }
+
+        infoArray.push(itemInfo)
+    }
+
+    for (let itemKey in percentObj)
+    {
+        let itemInfo = {
+            label: itemKey,
+            value: percentObj[itemKey]
+        }
+        percentArray.push(itemInfo)
+    }
+
+    return {
+        info: infoArray,
+        percent: percentArray
+    }
+}
 
 export const simplifyTrack = async (token, data) => {
 
@@ -92,7 +170,7 @@ export const simplifyTrack = async (token, data) => {
         let previewUrl = trackObj['preview_url']
         let features = getTrackFeatures(id, token)
 
-        processed[trackKey] = {
+        processed[id] = {
             id,
             name,
             artists,
@@ -103,7 +181,7 @@ export const simplifyTrack = async (token, data) => {
             features
         }
     }
-    console.log(processed)
+    //console.log(processed)
     data.items = processed
     return data
 }

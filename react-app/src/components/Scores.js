@@ -99,7 +99,7 @@ const Scores = () => {
         e.preventDefault()
         const res = await fetch(`/api/score/candidate/${candidateId}`)
         const data = await res.json()
-        console.log(data)
+        //console.log(data)
         if(data['error']){
             setError(data['error'])
             setCodingScore(0)

@@ -4,7 +4,7 @@ import './SideBar.css'
 
 const SideBar = ({playlists}) => {
 
-    console.log(playlists)
+    //console.log(playlists)
     return (
         <div className="side-bar">
             <h1>Playlists</h1>

@@ -27,7 +27,7 @@ const Buttons = (props) => {
         })
 
         if(res.status == 204){
-            console.log('success')
+            //console.log('success')
         }
     }
 
@@ -54,7 +54,7 @@ const Buttons = (props) => {
         })
 
         if(res.status == 204){
-            console.log('success')
+            //console.log('success')
         }
     }
 
