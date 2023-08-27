@@ -33,7 +33,7 @@ function App() {
   const user = useSelector(state => state.session.user)
   const libraryState = useSelector(state => state.spotify.library)
   const playListsState = useSelector(state => state.spotify.playlists)
-  const playlistTracksState = useSelector(state => state.spotify.playlist_tracks)
+  const tracksState = useSelector(state => state.spotify.tracks)
   const activeTrackFeaturesState = useSelector(state => state.spotify.track_features)
   
 
@@ -94,9 +94,9 @@ function App() {
     }, [playListsState])
 
     useLayoutEffect(() => {
-      if(isAuthenticated && Object.values(playlistTracksState).length > 0 ){
+      if(isAuthenticated && Object.values(tracksState).length > 0 ){
 
-        setActiveTracks([...Object.values(playlistTracksState)])
+        setActiveTracks([...Object.values(tracksState)])
 
 
         anime({
@@ -108,7 +108,7 @@ function App() {
           delay: 0
         })
       }
-    }, [playlistTracksState])
+    }, [tracksState])
 
     useEffect(() => {
       if(isAuthenticated && activeTrackFeaturesState['info'].length > 0){

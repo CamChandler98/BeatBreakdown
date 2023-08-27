@@ -32,7 +32,7 @@ const PlaylistThumb = ({playlist}) => {
 
             anime({
                 targets: '.track-list',
-                filter: ["blur(5px)", "blur(70px)", ],
+                filter: ["blur(5px)", "blur(35px)", ],
                 easing:  'cubicBezier(.5, .05, .1, .3)',
                 duration:900,
                 loop: false,

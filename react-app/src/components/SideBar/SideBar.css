@@ -13,6 +13,6 @@
     /* flex-grow: 1; */
     /* max-height: 110vh; */
     /* overflow-y: scroll; */
-    max-height: 100vh;
+    height: 90vh;
     overflow-y: scroll;
 }

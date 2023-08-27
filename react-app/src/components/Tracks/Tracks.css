@@ -12,17 +12,17 @@
     align-items: center;
 
 }
-.track-img img{
+.track-list .track-img img{
     width: 100px;
     /* height: 100; */
 }
 
-.track-text h1{
+.track-list .track-text h1{
     color: #ededed;
 
     font-size: x-large;
 }
-.track-text{
+.track-list .track-text{
     padding: 1%;
     font-size: normal;
     color: #b5b1b1;
@@ -40,9 +40,13 @@
     border-bottom-right-radius: 0px;
     /* flex-grow: 10; */
     /* width: 100%; */
-    max-height: 100vh;
+    max-width: 100%;
+    max-height: 90vh;
+    padding-bottom: 20px;
+    
     /* overflow-y: scroll; */
 }
 .infinite-scroll-component__outerdiv{
     flex-grow: 6;
+    /* flex-shrink: 0; */
 }

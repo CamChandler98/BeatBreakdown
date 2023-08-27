@@ -27,5 +27,8 @@ nav {
 
 body{
     background-color: #0d5ba7;
+    height: fit-content;
     overflow-y: hidden;
+
+    /* overflow-y: hidden; */
 }

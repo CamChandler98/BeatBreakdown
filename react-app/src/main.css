@@ -2,4 +2,11 @@
     display: flex;
     gap: 1em;
     padding-top: 2%;
+    height: fit-content;
+    overflow-y: hidden;
+  }
+
+  .root{
+    height: fit-content;
+    overflow-y: hidden;
   }

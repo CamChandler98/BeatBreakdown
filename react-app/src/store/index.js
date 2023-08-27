@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session'
 import spotify from './spotify';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 const rootReducer = combineReducers({
     session,

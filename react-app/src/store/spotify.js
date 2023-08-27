@@ -109,7 +109,8 @@ export default function spotify (state = initialState, action){
         case SET_PLAYLIST_TRACKS : 
             return{
                 ...state,
-                playlist_tracks: {...action.playlist_tracks.items}
+                track_features : {...initialState.track_features},
+                tracks: {...action.playlist_tracks.items}
             }
         case SET_TRACK_FEATURES : 
             return{
