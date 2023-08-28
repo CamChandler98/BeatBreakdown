@@ -53,11 +53,10 @@ export const getRecommendedTracks = (data) => async (dispatch) => {
 
     let endpoint = `recommendations?${queryString}`
 
-    console.log(endpoint)
     let token = localStorage.getItem('tokens')
     let outData = await fetchDataEndpoint(token, endpoint)
-
-    dispatch(setRecommendedTracks(outData))
+    let tracks = await simplifyTrack(token, outData)
+    dispatch(setRecommendedTracks(tracks))
 }
 export const goGetTrackFeatures = (token, id) => async (dispatch) => {
 
@@ -104,7 +103,10 @@ export const getLibrary = (token, next = '') => async (dispatch) => {
 
 }
 
-const initialState = {active_playlist: {} , playlists : {}, tracks: {},rec_tracks:{},playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
+const initialState = {active_playlist: {} , 
+playlists : {}, 
+tracks: {},
+rec_tracks:{},playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
 
 export default function spotify (state = initialState, action){
     switch(action.type){
@@ -144,7 +146,7 @@ export default function spotify (state = initialState, action){
         case SET_RECOMMENDED_TRACKS : 
         return{
             ...state,
-            track_recs: {...action.tracks}
+            track_recs: {...action.tracks.items}
         }
         default:
             return state

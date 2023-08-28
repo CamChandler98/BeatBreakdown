@@ -41,8 +41,6 @@ function App() {
   const activeTrackFeaturesState = useSelector(state => state.spotify.track_features)
   const activePlaylistState = useSelector(state => state.spotify.active_playlist)
   
-
-  
   useEffect(() => {
     let cookies = document.cookie
     let cookieList = cookies.split('; ')

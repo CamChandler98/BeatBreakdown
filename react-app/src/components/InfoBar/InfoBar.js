@@ -12,7 +12,9 @@ const InfoBar = ({features, trackInfo}) => {
 
     let tracks = useSelector(state => state['spotify']['tracks'])
     let featuresState = useSelector(state =>state['spotify']['track_features'] )
-
+    let recState = useSelector (state =>state['spotify'['track_reck']])
+    
+    
     const getRecObj = (features) => {
         let origin = features['origin']
         let params = {
