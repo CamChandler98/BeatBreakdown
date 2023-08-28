@@ -8,10 +8,10 @@ const PlaylistThumb = ({playlist}) => {
     const token = useSelector(state => state.session)
     const dispatch = useDispatch()
 
-    const getTracks = async (id) => {
+    const getTracks = async (data) => {
         let tokens = await refreshTokens()
 
-        dispatch(goSetPlaylistTracks(tokens, id))
+        dispatch(goSetPlaylistTracks(tokens, data))
     }
     const hasImage = (playlist) => {
 
@@ -23,6 +23,13 @@ const PlaylistThumb = ({playlist}) => {
         {
             return playlist['images'][0]['url']
         }
+    }
+
+    const getBigImg= (playlist) => {
+
+
+            return playlist['images'][0]['url']        
+
     }
     return(
         <>
@@ -38,7 +45,13 @@ const PlaylistThumb = ({playlist}) => {
                 loop: false,
                 delay: 0
               })
-            getTracks(playlist.id)
+              let data = {
+                id: playlist['id'],
+                img: getBigImg(playlist),
+                name: playlist['name'],
+                owner: playlist['owner'],
+              }
+            getTracks(data)
         }}>
             
             <img src = {hasImage(playlist) } className="playlist-thumb-img"/>

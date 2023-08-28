@@ -25,7 +25,11 @@ function App() {
   const [library, setLibrary] = useState({})
   const [playlists, setPlaylists] = useState([])
   const [activeTracks, setActiveTracks] = useState([])
+  const [activePlaylist, setActivePlaylist] = useState({})
   const [trackFeatures, setTrackFeatures] = useState({})
+
+  const [headerColors, setHeaderColors] = useState(['#DD4C58','#377771', '#CB8345', '#6D7085'])
+  const [currentColor, setCurrentColor] = useState('')
 
   const dispatch = useDispatch()
   
@@ -35,6 +39,7 @@ function App() {
   const playListsState = useSelector(state => state.spotify.playlists)
   const tracksState = useSelector(state => state.spotify.tracks)
   const activeTrackFeaturesState = useSelector(state => state.spotify.track_features)
+  const activePlaylistState = useSelector(state => state.spotify.active_playlist)
   
 
   
@@ -63,8 +68,8 @@ function App() {
     let authTokens = await refreshTokens()
     if( user && user['display_name']){
       setIsAuthenticated(true)
-      dispatch(getLibrary(authTokens))
-      dispatch(goGetUserPlaylists(authTokens))
+      // dispatch(getLibrary(authTokens))
+      // dispatch(goGetUserPlaylists(authTokens))
       return
     }
     else{
@@ -76,7 +81,10 @@ function App() {
     }, [user])
 
     useEffect(async () => {
-        dispatch(getLibrary)
+      let authTokens = JSON.parse(localStorage.getItem('tokens'))
+      dispatch(getLibrary)
+      dispatch(goGetUserPlaylists(authTokens))
+
     }, [isAuthenticated])
 
 
@@ -90,6 +98,18 @@ function App() {
     useEffect(() => {
       if(isAuthenticated && Object.values(playListsState).length > 0 ){
         setPlaylists([...Object.values(playListsState)])
+
+        let playlist = Object.values(playListsState)[0]
+        let data = {
+          id: playlist['id'],
+          img: playlist['images'][0]['url'],
+          name: playlist['name'],
+          owner: playlist['owner'],
+        }
+
+    let authTokens = JSON.parse(localStorage.getItem('tokens'))
+
+        dispatch(goSetPlaylistTracks(authTokens, data))
       }
     }, [playListsState])
 
@@ -97,8 +117,12 @@ function App() {
       if(isAuthenticated && Object.values(tracksState).length > 0 ){
 
         setActiveTracks([...Object.values(tracksState)])
+        let color = headerColors.shift()
+        headerColors.push(color)
 
+        setCurrentColor(color)
 
+        setActivePlaylist({...activePlaylistState})
         anime({
           targets: '.track-list',
           filter: "blur(0px)",
@@ -128,7 +152,7 @@ function App() {
         { (!isAuthenticated) ? <Login/> :  
         <div className='main'>
                  <SideBar playlists={playlists}/>
-                 <TrackList tracks={activeTracks}></TrackList>
+                 <TrackList tracks={activeTracks} playlist = {activePlaylist} color={currentColor}></TrackList>
                  <InfoBar features = {trackFeatures} />
         </div>
       }

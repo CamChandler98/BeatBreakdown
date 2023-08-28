@@ -4,6 +4,8 @@ import { goSetTokens } from "../store/session"
 export const refreshTokens = async () => {
     let res = await fetch('/api/auth/refresh', {method: 'GET', mode : 'cors'})
     let data = await res.json()
+    let local = JSON.stringify(data)
+    localStorage.setItem('tokens', local)
     return data
 }
 
@@ -35,7 +37,7 @@ export const getDataNext = (data) => {
 
 export const fetchDataEndpoint =  async (token, endpoint, baseUrl = 'https://api.spotify.com/v1/') => {
     let url = baseUrl + endpoint
-    let tokens = await refreshTokens()
+    let tokens = JSON.parse(localStorage.getItem('tokens'))
     let authString = `Bearer ${tokens['token']}`
    let res = await fetch(url, {
         headers: {
@@ -86,12 +88,13 @@ export const getTrackFeatures  = async (id, token, endpoint= 'audio-features/', 
         })
         data = await res.json()
     }
-let processed =   simplifyTrackFeatures(data)
-processed.id = id
+    let processed = simplifyTrackFeatures(data)
+    processed.id = id
+    processed.origin = data
     return processed    
 }
 
-const simplifyTrackFeatures = (track) => {
+export const simplifyTrackFeatures = (track) => {
 
     let{
         acousticness,
@@ -168,7 +171,7 @@ export const simplifyTrack = async (token, data) => {
         let albumArt = trackObj['album']['images'][1]
         let albumName = trackObj['album']['name']
         let previewUrl = trackObj['preview_url']
-        let features = getTrackFeatures(id, token)
+        // let features = getTrackFeatures(id, token)
 
         processed[id] = {
             id,
@@ -178,7 +181,7 @@ export const simplifyTrack = async (token, data) => {
             albumArt,
             albumName,
             previewUrl,
-            features
+            // features
         }
     }
     //console.log(processed)

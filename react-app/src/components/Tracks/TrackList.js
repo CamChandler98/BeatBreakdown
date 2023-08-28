@@ -1,26 +1,37 @@
 import Track from "./Track";
 import InfiniteScroll from "react-infinite-scroll-component";
-const TrackList = ({tracks}) => {
-    //console.log('from tracklist' , tracks)
+const TrackList = ({tracks, playlist, color}) => {
+
+    console.log('from tracklist' , playlist)
     return(
 
-            <InfiniteScroll className="track-list"
-                dataLength = {tracks.length}
-                hasMore = {false}
-                loader = {<h4>Loading...</h4>}
+            <div className="track-list"
             >
-                <div className = 'track-list-header'>
-                    <h1>
-
-                    </h1>
+                {
+                playlist && playlist['owner'] &&
+                 <div className = 'track-list-header' style= {{backgroundColor: color}}>
+                <img src = {playlist['img']}  className="track-list-img"  />
+  
+                <div className="track-list-text">
+                    <span>{playlist['name']}</span>
+                    <span>{`By: ${playlist['owner']['display_name']}`}</span>
                 </div>
+                </div>
+                }
                     {tracks && tracks.map(track => {
                         return(
                          <Track key= {track.id} track={track} />
                         )
                     })}
-                
-            </InfiniteScroll>
+                {
+                    tracks.length < 1  &&
+                    <div className="track-placeholder">
+                        <p>
+                            Select a playlist on the left!
+                        </p>
+                    </div>
+                }
+            </div>
             
     
     )

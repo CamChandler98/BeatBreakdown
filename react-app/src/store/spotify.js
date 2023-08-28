@@ -8,11 +8,17 @@ const SET_USER_PLAYLISTS = 'spotify/SET_USER_PLAYLISTS'
 const SET_PLAYLIST_TRACKS = 'spotify/SET_PLAYLIST_TRACKS'
 const SET_NEXT = 'spotify/SET_NEXT'
 const SET_TRACK_FEATURES = 'spotify/SET_TRACK_FEATURES'
+const SET_RECOMMENDED_TRACKS = 'spotify/SET_RECOMMENDED_TRACKS'
 
 
 const setTrackFeatures = (data) => ({
     type: SET_TRACK_FEATURES,
     track_features: data 
+})
+
+const setRecommendedTracks = (data) => ({
+    type: SET_RECOMMENDED_TRACKS,
+    tracks: data
 })
 
 const setUserPlaylists = (data) => ({
@@ -41,11 +47,21 @@ const setNext = (next) => ({
     next : next
 })
 
+export const getRecommendedTracks = (data) => async (dispatch) => {
+    let searchParams = new URLSearchParams(data)
+    let queryString = searchParams.toString();
 
+    let endpoint = `recommendations?${queryString}`
+
+    console.log(endpoint)
+    let token = localStorage.getItem('tokens')
+    let outData = await fetchDataEndpoint(token, endpoint)
+
+    dispatch(setRecommendedTracks(outData))
+}
 export const goGetTrackFeatures = (token, id) => async (dispatch) => {
 
     let data = await getTrackFeatures(id,token)
-
     dispatch(setTrackFeatures(data))
 }
 
@@ -68,10 +84,12 @@ export const goGetUserPlaylists = (token) => async (dispatch) => {
 
 }
 
-export const goSetPlaylistTracks = (token,id) => async(dispatch) => {
-    let endpoint = `playlists/${id}/tracks`
+export const goSetPlaylistTracks = (token,inData) => async(dispatch) => {
+    let endpoint = `playlists/${inData.id}/tracks`
     let data = await fetchDataEndpoint(token, endpoint)
     data = await simplifyTrack(token,data)
+
+    data['playlist'] = inData
     dispatch(setPlaylistTracks(data))
 }
 
@@ -86,7 +104,7 @@ export const getLibrary = (token, next = '') => async (dispatch) => {
 
 }
 
-const initialState = {playlists : {}, tracks: {}, playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
+const initialState = {active_playlist: {} , playlists : {}, tracks: {},rec_tracks:{},playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
 
 export default function spotify (state = initialState, action){
     switch(action.type){
@@ -110,7 +128,8 @@ export default function spotify (state = initialState, action){
             return{
                 ...state,
                 track_features : {...initialState.track_features},
-                tracks: {...action.playlist_tracks.items}
+                tracks: {...action.playlist_tracks.items},
+                active_playlist: {...action.playlist_tracks.playlist}
             }
         case SET_TRACK_FEATURES : 
             return{
@@ -118,10 +137,15 @@ export default function spotify (state = initialState, action){
                 track_features: {
                     id: action.track_features.id,
                     info : [...action.track_features.info ],
-                    percent : [...action.track_features.percent ]
-
+                    percent : [...action.track_features.percent ],
+                    origin: {...action.track_features.origin} 
                 }
             }
+        case SET_RECOMMENDED_TRACKS : 
+        return{
+            ...state,
+            track_recs: {...action.tracks}
+        }
         default:
             return state
     }

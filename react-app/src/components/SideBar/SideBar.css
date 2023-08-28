@@ -1,7 +1,7 @@
 .side-bar{
     background-color: #8c35ff;
-    padding: 2%;
-    margin-left: 2em;
+    padding: 1%;
+    margin-left: 1em;
     margin-right: 1em;
     border-radius: 20px;
     /* border-top-right-radius: 5%;
@@ -11,8 +11,39 @@
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     /* flex-grow: 1; */
+    flex-shrink: 1;
     /* max-height: 110vh; */
     /* overflow-y: scroll; */
     height: 90vh;
     overflow-y: scroll;
+    min-width: 10%;
+}
+
+.side-bar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.side-bar {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+
+
+.side-bar-header{
+    position: relative;
+    right: 29px; 
+    width: 130%;
+    bottom: 20px;
+    padding: 4%;
+    background-color: #DD4C58;
+}
+
+.side-bar-header h1{ 
+    color: #ededed;
+    font-size: small;
+    text-align: center;
+    font-weight: 600;
+
 }

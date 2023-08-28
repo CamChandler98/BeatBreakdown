@@ -1,3 +1,38 @@
+.track-list{
+
+    background-color: #8c35ff;
+    padding: 1%;
+    margin-left: 2em;
+    margin-right: 1em;
+    border-radius: 20px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    max-width: 100%;
+    /* height: 90%; */
+    height: 90vh;
+    flex-grow: 10;
+
+    padding-bottom: 20px;
+    border-top-left-radius: 0px;   
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-left: 0%;
+
+
+}
+.track-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.track-list {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
 .track-container{
     display: flex;
     gap: .2em;
@@ -5,22 +40,53 @@
     margin-top: 2%;
     margin-bottom: 2%;
     height: fit-content;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    padding: 15px;
+    /* padding: 15px; */
     align-items: center;
+    /* height: 130px; */
+}
 
+.track-list-header
+{
+    display: flex;
+    /* background-color: #DD4C58; */
+    width: 120%;
+    position: relative;
+    right: 38px;
+    bottom: 39px;
+}
+.track-list-header span
+{
+    font-size: xx-large;
+    line-height: 35px;
+}
+
+.track-list-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 2%;
+}
+
+.track-list-text span{
+    font-weight: 600;
+    color:  #ededed;
+    /* width: 50%; */
+}
+.track-list-img{
+    width: 200px;
 }
 .track-list .track-img img{
-    width: 100px;
+    width: 130px;
     /* height: 100; */
 }
 
 .track-list .track-text h1{
     color: #ededed;
 
-    font-size: x-large;
+    font-size: large;
 }
 .track-list .track-text{
     padding: 1%;
@@ -28,25 +94,36 @@
     color: #b5b1b1;
 }
 
-.track-list{
-    /* flex-grow: 1; */
-    background-color: #8c35ff;
-    padding: 2%;
-    margin-left: 2em;
-    margin-right: 1em;
-    border-radius: 20px;
-    box-sizing: border-box;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    /* flex-grow: 10; */
-    /* width: 100%; */
-    max-width: 100%;
-    max-height: 90vh;
-    padding-bottom: 20px;
-    
-    /* overflow-y: scroll; */
-}
+
 .infinite-scroll-component__outerdiv{
     flex-grow: 6;
+    height: 90%;
+ 
+    overflow-x: hidden;
     /* flex-shrink: 0; */
+}
+
+
+.track-placeholder{
+    margin-top: 38%;
+    margin-bottom: auto;
+    background-color: #1b1b1d;
+    padding: 18%;
+    border-radius: 20px;
+    margin-left: 2%;
+    }
+    
+.track-placeholder p {
+    text-align: center;
+    font-size: large;
+    color: #b5b1b1;
+
+}
+
+@media screen and (max-width: 920px ) {
+    .track-list .track-text h1{
+        color: #ededed;
+    
+        font-size: large;
+    }
 }

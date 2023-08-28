@@ -23,7 +23,10 @@ const Track = ({track}) => {
         </div>
 
         <div className="track-text">
-        <h1>
+        </div>
+        <div className="track-text">
+
+            <h1>
                 {track.name}
             </h1>
             <p>

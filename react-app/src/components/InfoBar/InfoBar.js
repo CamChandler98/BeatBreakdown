@@ -1,15 +1,37 @@
 import InfoBarItem from "./InfoBarItem"
 import InfoBarPercent from "./InfoBarPrecent"
 import './InfoBar.css'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { getRecommendedTracks } from "../../store/spotify"
 
 const InfoBar = ({features, trackInfo}) => {
     
     const [track, setTrack] = useState({})
+    const dispatch = useDispatch()
 
     let tracks = useSelector(state => state['spotify']['tracks'])
     let featuresState = useSelector(state =>state['spotify']['track_features'] )
+
+    const getRecObj = (features) => {
+        let origin = features['origin']
+        let params = {
+            seed_tracks: features['id'],
+            danceability: origin['danceability'],
+            acousticness: origin['acousticness'],
+            instrumentalness: origin['instrumentalness'],
+            liveness: origin['liveness'],
+            valence: origin['valence'],
+            loudness: origin['loudness'],
+            tempo: origin['tempo'],
+            key: origin['key'],
+            speechiness : origin['speechiness'],
+            mode : origin['mode'],
+        }
+
+        dispatch(getRecommendedTracks(params))
+
+    }
     
     useEffect(()=> {
         if(featuresState['id'])
@@ -23,6 +45,7 @@ const InfoBar = ({features, trackInfo}) => {
             setTrack(null)
         }
     },[featuresState, tracks])
+
 
 
     return(
@@ -74,6 +97,14 @@ const InfoBar = ({features, trackInfo}) => {
             </div>
                 }
 
+{       
+            Object.values(featuresState['percent']).length > 0 && 
+            <div className="recs-container" onClick={() => {
+                getRecObj(featuresState)
+            }}> 
+                    recs
+            </div>
+                }
 
             {
                 (!Object.values(featuresState['percent']).length || !featuresState['info']) && 
