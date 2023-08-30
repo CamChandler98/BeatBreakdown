@@ -21,12 +21,12 @@ const BarStyle = styled.div`
     }
 `
 
-const TitleBar = () => {
+const TitleBar = ({title}) => {
 
 
     return(
         <BarStyle>
-            <h1>BeatBreaker</h1>
+            <h1>{title}</h1>
         </BarStyle>
     )
 }

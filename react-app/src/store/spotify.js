@@ -9,8 +9,12 @@ const SET_PLAYLIST_TRACKS = 'spotify/SET_PLAYLIST_TRACKS'
 const SET_NEXT = 'spotify/SET_NEXT'
 const SET_TRACK_FEATURES = 'spotify/SET_TRACK_FEATURES'
 const SET_RECOMMENDED_TRACKS = 'spotify/SET_RECOMMENDED_TRACKS'
+const CLEAR_RECOMMENDED_TRACKS = 'spotify/CLEAR_RECOMMENDED_TRACKS'
 
 
+const clearRecommendedTracks = () => ({
+    type: CLEAR_RECOMMENDED_TRACKS
+})
 const setTrackFeatures = (data) => ({
     type: SET_TRACK_FEATURES,
     track_features: data 
@@ -62,6 +66,7 @@ export const goGetTrackFeatures = (token, id) => async (dispatch) => {
 
     let data = await getTrackFeatures(id,token)
     dispatch(setTrackFeatures(data))
+    dispatch(clearRecommendedTracks())
 }
 
 export const goGetUserPlaylists = (token) => async (dispatch) => {
@@ -103,10 +108,16 @@ export const getLibrary = (token, next = '') => async (dispatch) => {
 
 }
 
-const initialState = {active_playlist: {} , 
-playlists : {}, 
-tracks: {},
-rec_tracks:{},playlist_tracks:  {}, next : '', library: {}, track_features : {info: [], percent: []}}
+const initialState = {
+    active_playlist: {} , 
+    playlists : {}, 
+    tracks: {},
+    track_recs:{},
+    playlist_tracks:  {},
+    next : '', 
+    library: {}, 
+    track_features : {info: [], percent: []}
+}
 
 export default function spotify (state = initialState, action){
     switch(action.type){
@@ -148,6 +159,11 @@ export default function spotify (state = initialState, action){
             ...state,
             track_recs: {...action.tracks.items}
         }
+        case CLEAR_RECOMMENDED_TRACKS:
+            return{
+                ...state,
+                track_recs: {...initialState.track_recs}
+            }
         default:
             return state
     }

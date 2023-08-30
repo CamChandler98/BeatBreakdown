@@ -1,18 +1,22 @@
 import InfoBarItem from "./InfoBarItem"
 import InfoBarPercent from "./InfoBarPrecent"
+import RecTrackList from "./RecTrackList"
 import './InfoBar.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { getRecommendedTracks } from "../../store/spotify"
+import anime, { easings } from "animejs"
 
 const InfoBar = ({features, trackInfo}) => {
     
     const [track, setTrack] = useState({})
+    const [recTracks, setRecTracks] = useState([])
+    const [hasRecs, setHasRecs] = useState(false)
     const dispatch = useDispatch()
 
     let tracks = useSelector(state => state['spotify']['tracks'])
     let featuresState = useSelector(state =>state['spotify']['track_features'] )
-    let recState = useSelector (state =>state['spotify'['track_reck']])
+    let recState = useSelector (state =>state['spotify']['track_recs'])
     
     
     const getRecObj = (features) => {
@@ -41,6 +45,18 @@ const InfoBar = ({features, trackInfo}) => {
             let id = featuresState['id']
             let activeTrack = tracks[id]
             setTrack({...activeTrack})
+
+            anime({
+                targets: ['.info-bar > *',],
+                translateX: [500, 0],
+                scale: [0,1],
+                easing: 'easeOutElastic(1, 1.1)',
+                duration: 700,
+                delay: anime.stagger(100),
+            })
+
+
+
         }
         else
         {
@@ -49,6 +65,15 @@ const InfoBar = ({features, trackInfo}) => {
     },[featuresState, tracks])
 
 
+    useEffect(() => {
+        if(Object.values(recState).length > 0)
+        {
+            setRecTracks([...Object.values(recState)])
+            setHasRecs(true)
+        }else{
+            setHasRecs(false)
+        }
+    }, [recState])
 
     return(
 
@@ -87,7 +112,7 @@ const InfoBar = ({features, trackInfo}) => {
                 }
 
                 {
-                    Object.values(featuresState['percent']).length > 0 && 
+            Object.values(featuresState['percent']).length > 0 && 
             <div className="percent-features-container"> 
                     {
                     featuresState['percent'].map((item, i) => {
@@ -99,14 +124,22 @@ const InfoBar = ({features, trackInfo}) => {
             </div>
                 }
 
-{       
-            Object.values(featuresState['percent']).length > 0 && 
-            <div className="recs-container" onClick={() => {
-                getRecObj(featuresState)
-            }}> 
-                    recs
+            <div className="rec-wrapper" > 
+            {       
+            Object.values(featuresState['percent']).length > 0 && !hasRecs &&
+            <div>
+                  <a className="btn-spotify" onClick={ () => {
+                    getRecObj(featuresState)
+                  }} >
+                    Get Recommendations
+                 </a>
+            </div>        
+            }
+            {
+                Object.values(featuresState['percent']).length > 0 && hasRecs &&
+                <RecTrackList tracks={recTracks}/>
+            }
             </div>
-                }
 
             {
                 (!Object.values(featuresState['percent']).length || !featuresState['info']) && 

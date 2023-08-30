@@ -144,7 +144,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <TitleBar></TitleBar>
+    <TitleBar title = {'BeatBreakdown'}></TitleBar>
     <Switch>
         <Route path = '*'>
         { (!isAuthenticated) ? <Login/> :  
