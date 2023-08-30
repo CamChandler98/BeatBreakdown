@@ -4,7 +4,7 @@ WORKDIR /react-app
 COPY react-app/. .
 
 
-ENV REACT_APP_BASE_URL=https://benchmarket-sfa.herokuapp.com/
+ENV REACT_APP_BASE_URL=https://beat-breakdown-fa70b7f295a5.herokuapp.com/
 
 # Build React App
 RUN npm install
