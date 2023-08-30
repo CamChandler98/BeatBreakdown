@@ -1,6 +1,6 @@
 .track-list{
 
-    background-color: #8c35ff;
+    background-color: #29262a;
     padding: 1%;
     margin-left: 2em;
     margin-right: 1em;
@@ -36,9 +36,9 @@ scrollbar-width: none;  /* Firefox */
 .track-container{
     display: flex;
     gap: .2em;
-    background-color: #1b1b1d;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    /* background-color: #1b1b1d; */
+    margin-top:12px;
+    margin-bottom: 12px;
     height: fit-content;
     /* border-radius: 20px; */
     border-top-right-radius: 20px;
@@ -47,7 +47,18 @@ scrollbar-width: none;  /* Firefox */
     align-items: center;
     /* height: 130px; */
 }
+.track-container:hover{
+    background-color: #503a6b1f;
+    cursor: pointer;
+}
 
+.track-container * {
+    pointer-events: none;
+}
+
+.track-container.active{
+    background-color: #503a6b1f;
+}
 .track-list-header
 {
     display: flex;

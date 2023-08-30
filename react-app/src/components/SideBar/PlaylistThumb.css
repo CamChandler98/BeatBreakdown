@@ -4,7 +4,7 @@
     /* flex-direction: column; */
     margin-bottom: 10%;
     align-items: center;
-    background-color: #1b1b1d;
+    /* background-color: #1b1b1d; */
     margin-top: 2%;
     margin-bottom: 2%;
     height: fit-content;
@@ -13,7 +13,18 @@
     border-bottom-right-radius: 20px; */
     padding: 10px;
 } 
+.playlist-thumb:hover{
+    background-color: #503a6b1f;
+    cursor: pointer;
+}
 
+.playlist-thumb * {
+    pointer-events: none;
+}
+
+.playlist-thumb.active{
+    background-color: #503a6b1f;
+}
 .playlist-thumb-img{
     height: 40px;
     width: 40px;

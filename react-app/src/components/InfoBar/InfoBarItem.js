@@ -1,7 +1,6 @@
 
 const InfoBarItem = ({info}) => {
     function capitalizeFirstLetter(string) {
-        console.log('string', string)
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
     const convertCap = (info) => {

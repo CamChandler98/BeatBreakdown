@@ -35,7 +35,20 @@ const PlaylistThumb = ({playlist}) => {
         <>
         {
         playlist && 
-        <div className="playlist-thumb" onClick={ () => {
+        <div className="playlist-thumb" onClick={ (e) => {
+
+            if(e.target.classList.contains('active')){
+                return
+            }
+            let otherContainers = e.target.parentElement.children
+
+            for(let el of otherContainers){
+                if(el !== e.target){
+                    el.classList.remove('active')
+                }
+            }
+
+            e.target.classList.add('active')
 
             anime({
                 targets: '.track-list',

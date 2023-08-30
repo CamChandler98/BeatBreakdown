@@ -15,8 +15,23 @@ const Track = ({track}) => {
     }
 
     return(
-    <div className= "track-container" onClick= {()=> {
+    <div className= "track-container" onClick= {(e)=> {
+
+        if(e.target.classList.contains('active')){
+            return
+        }
+        let otherContainers = e.target.parentElement.children
+
+        for(let el of otherContainers){
+            if(el !== e.target){
+                el.classList.remove('active')
+            }
+        }
+
+        e.target.classList.add('active')
         getFeatures(track.id)
+
+        e.target.classList.add('active')
     }}>
         <div className="track-img">
             <img src={track['albumArt']['url']} />

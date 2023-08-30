@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const BarStyle = styled.div`
     display: flex;
-    background-color: white;
+    // background-color: white;
     position: static;
     font-size: 30px;
     top:0;
@@ -12,12 +12,13 @@ const BarStyle = styled.div`
     align-items: center;
     box-sizing: border-box;
     padding: .3rem;
-    box-shadow: 0px 0px 2px 0px;
+    // box-shadow: 0px 0px 2px 0px;
 
     h1{
-        font-size: 30px;
-        font-weight: bold;
-        background-color: white;
+        font-size: 80px;
+        // background-color: white;
+        color: #a77bcb;
+        font-family:  "Monoton", Arial, Helvetica, sans-serif;;
     }
 `
 

@@ -3,7 +3,6 @@ import RangeSlider from 'react-bootstrap-range-slider';
 const InfoBarPercent = ({info}) => {
 
     function capitalizeFirstLetter(string) {
-        console.log('string', string)
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
     function scale (number, inMin, inMax, outMin, outMax) {
@@ -35,7 +34,7 @@ const InfoBarPercent = ({info}) => {
                 variant='success'
                 tooltipStyle={
                     {
-                        backgroundColor: '#8c35ff'
+                        backgroundColor: '#29262a'
                     }
                 }
             />
