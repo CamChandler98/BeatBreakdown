@@ -30,7 +30,7 @@ const InfoBarPercent = ({info}) => {
                 value={info.value}
                 min = {0}
                 max = {1}
-                step={.001}
+                step={.01}
                 variant='success'
                 tooltipStyle={
                     {

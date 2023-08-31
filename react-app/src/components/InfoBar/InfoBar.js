@@ -5,7 +5,7 @@ import './InfoBar.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { getRecommendedTracks } from "../../store/spotify"
-import anime, { easings } from "animejs"
+import anime, { easings, get } from "animejs"
 
 const InfoBar = ({features, trackInfo}) => {
     
@@ -55,8 +55,17 @@ const InfoBar = ({features, trackInfo}) => {
                 delay: anime.stagger(100),
             })
 
+            const getValuenow = (el, i, l) => {
+                console.log(el.value)
+                return el.value
+                }
 
-
+            // anime({
+            //     targets: ['.percent-feature input'],
+            //     value: [0, (target, index, length) => {
+            //         return getValuenow(target,index,length)
+            //     }]
+            // })
         }
         else
         {
@@ -69,11 +78,37 @@ const InfoBar = ({features, trackInfo}) => {
         if(Object.values(recState).length > 0)
         {
             setRecTracks([...Object.values(recState)])
+
+            anime({
+                targets: ['.recs-container > *',],
+                translateY: [500, 0],
+                scale: [0,1],
+                easing: 'easeOutElastic(1, 1.1)',
+                duration: 700,
+                delay: anime.stagger(100),
+            })
+
             setHasRecs(true)
         }else{
             setHasRecs(false)
         }
     }, [recState])
+
+    useEffect(() => {
+
+        anime({
+            targets: ['.recs-container > *',],
+            translateY: [500, (target, index, l ) => {
+                console.log(target)
+                return 0
+            }],
+            scale: [0,1],
+            easing: 'easeOutElastic(1, 1.1)',
+            duration: 600,
+            delay: anime.stagger(100),
+        })
+
+    }, [recTracks])
 
     return(
 
